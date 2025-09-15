@@ -1,0 +1,139 @@
+@model IEnumerable<SuaNhaMVC.Models.Booking>
+
+@{
+    ViewData["Title"] = "Lịch đặt của tôi";
+}
+
+<!-- Header -->
+<section class="bg-white shadow-sm">
+    <div class="container py-5">
+        <div class="text-center">
+            <h1 class="display-5 fw-bold text-dark mb-4">Lịch Đặt Của Tôi</h1>
+            <p class="lead text-muted">Quản lý và theo dõi các lịch hẹn sửa chữa</p>
+        </div>
+    </div>
+</section>
+
+<!-- Bookings List -->
+<section class="py-5 bg-light">
+    <div class="container">
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">Bạn chưa có lịch đặt nào</h4>
+                <p class="text-muted mb-4">Hãy đặt lịch sửa chữa để được phục vụ tốt nhất</p>
+                <a asp-controller="Booking" asp-action="Index" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus me-2"></i>Đặt Lịch Ngay
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+                @foreach (var booking in Model)
+                {
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm border-0 h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h5 class="card-title fw-bold mb-0">@booking.Service.Name</h5>
+                                    <span class="badge @GetStatusBadgeClass(booking.Status) fs-6">
+                                        @GetStatusText(booking.Status)
+                                    </span>
+                                </div>
+                                
+                                <div class="row g-3 mb-3">
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center text-muted">
+                                            <i class="fas fa-calendar me-2"></i>
+                                            <small>@booking.BookingDate.ToString("dd/MM/yyyy")</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center text-muted">
+                                            <i class="fas fa-clock me-2"></i>
+                                            <small>@booking.BookingTime</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center text-muted">
+                                            <i class="fas fa-user me-2"></i>
+                                            <small>@booking.CustomerName</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center text-muted">
+                                            <i class="fas fa-phone me-2"></i>
+                                            <small>@booking.CustomerPhone</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-start text-muted">
+                                        <i class="fas fa-map-marker-alt me-2 mt-1"></i>
+                                        <small>@booking.CustomerAddress</small>
+                                    </div>
+                                </div>
+                                
+                                @if (!string.IsNullOrEmpty(booking.Notes))
+                                {
+                                    <div class="mb-3">
+                                        <div class="d-flex align-items-start text-muted">
+                                            <i class="fas fa-sticky-note me-2 mt-1"></i>
+                                            <small>@booking.Notes</small>
+                                        </div>
+                                    </div>
+                                }
+                                
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <div class="fw-bold text-primary fs-5">
+                                        @booking.Service.Price.ToString("N0")đ
+                                    </div>
+                                    <small class="text-muted">
+                                        Đặt lúc: @booking.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            
+            <div class="text-center mt-5">
+                <a asp-controller="Booking" asp-action="Index" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus me-2"></i>Đặt Thêm Lịch
+                </a>
+            </div>
+        }
+    </div>
+</section>
+
+@functions {
+    private string GetStatusBadgeClass(BookingStatus status)
+    {
+        return status switch
+        {
+            BookingStatus.Pending => "bg-warning text-dark",
+            BookingStatus.Confirmed => "bg-info text-white",
+            BookingStatus.InProgress => "bg-primary text-white",
+            BookingStatus.Completed => "bg-success text-white",
+            BookingStatus.Cancelled => "bg-danger text-white",
+            _ => "bg-secondary text-white"
+        };
+    }
+    
+    private string GetStatusText(BookingStatus status)
+    {
+        return status switch
+        {
+            BookingStatus.Pending => "Chờ xác nhận",
+            BookingStatus.Confirmed => "Đã xác nhận",
+            BookingStatus.InProgress => "Đang thực hiện",
+            BookingStatus.Completed => "Hoàn thành",
+            BookingStatus.Cancelled => "Đã hủy",
+            _ => status.ToString()
+        };
+    }
+}

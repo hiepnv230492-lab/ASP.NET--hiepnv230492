@@ -1,0 +1,101 @@
+@model IEnumerable<SuaNhaMVC.Models.Service>
+
+@{
+    ViewData["Title"] = "Quản lý dịch vụ";
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Quản Lý Dịch Vụ</h1>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addServiceModal">
+            <i class="fas fa-plus me-1"></i>Thêm Dịch Vụ
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Tên dịch vụ</th>
+                            <th>Danh mục</th>
+                            <th>Giá</th>
+                            <th>Ngày tạo</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var service in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="@service.ImageUrl" alt="@service.Name" 
+                                             class="rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                        <div>
+                                            <strong>@service.Name</strong>
+                                            <br><small class="text-muted">@service.Description</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-primary">@service.Category</span></td>
+                                <td><strong>@service.Price.ToString("N0")đ</strong></td>
+                                <td>@service.CreatedAt.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    <form method="post" asp-action="DeleteService" class="d-inline">
+                                        <input type="hidden" name="id" value="@service.Id" />
+                                        <button type="submit" class="btn btn-sm btn-danger" 
+                                                onclick="return confirm('Bạn có chắc muốn xóa dịch vụ này?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Service Modal -->
+<div class="modal fade" id="addServiceModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm Dịch Vụ Mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" asp-action="CreateService">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Tên dịch vụ</label>
+                        <input name="name" type="text" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mô tả</label>
+                        <textarea name="description" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Giá (VNĐ)</label>
+                        <input name="price" type="number" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Danh mục</label>
+                        <input name="category" type="text" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">URL hình ảnh</label>
+                        <input name="imageUrl" type="url" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

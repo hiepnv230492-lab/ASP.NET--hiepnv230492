@@ -1,0 +1,268 @@
+@model IEnumerable<SuaNhaMVC.Models.Booking>
+
+@{
+    ViewData["Title"] = "Bảng Điều Khiển Quản Trị";
+    var stats = ViewBag.Stats;
+}
+
+<style>
+.admin-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+.admin-card:hover {
+    transform: translateY(-5px);
+}
+.stat-card {
+    background: linear-gradient(135deg, var(--bs-primary), var(--bs-primary-dark));
+    border-radius: 15px;
+    color: white;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+.quick-action-btn {
+    border-radius: 10px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.quick-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 2s infinite;
+}
+@@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+</style>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="mb-1"><i class="fas fa-tachometer-alt me-2"></i>Bảng Điều Khiển</h1>
+                    <p class="text-muted mb-0">Quản lý toàn bộ hệ thống website</p>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="status-indicator bg-success me-2"></span>
+                    <span class="badge bg-success fs-6 px-3 py-2">
+                        <i class="fas fa-globe me-1"></i>Website Online - @DateTime.Now.ToString("dd/MM/yyyy")
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="admin-card card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3"><i class="fas fa-bolt me-2"></i>Thao Tác Nhanh</h5>
+                    <div class="row g-3">
+                        <div class="col-md-2">
+                            <a asp-action="Content" class="btn btn-primary quick-action-btn w-100">
+                                <i class="fas fa-edit d-block mb-1"></i>
+                                <small>Quản lý nội dung</small>
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a asp-action="Services" class="btn btn-info quick-action-btn w-100">
+                                <i class="fas fa-tools d-block mb-1"></i>
+                                <small>Dịch vụ</small>
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a asp-action="Bookings" class="btn btn-success quick-action-btn w-100">
+                                <i class="fas fa-calendar-check d-block mb-1"></i>
+                                <small>Đơn hàng</small>
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a asp-action="Settings" class="btn btn-warning quick-action-btn w-100">
+                                <i class="fas fa-cog d-block mb-1"></i>
+                                <small>Cài đặt</small>
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary quick-action-btn w-100" target="_blank">
+                                <i class="fas fa-eye d-block mb-1"></i>
+                                <small>Xem website</small>
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="#" class="btn btn-dark quick-action-btn w-100" onclick="location.reload()">
+                                <i class="fas fa-sync d-block mb-1"></i>
+                                <small>Làm mới</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="admin-card card text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2 class="mb-1">@stats.TotalBookings</h2>
+                            <p class="mb-0 opacity-75">Tổng đơn hàng</p>
+                            <small class="opacity-50">+12% so với tháng trước</small>
+                        </div>
+                        <div class="text-end">
+                            <i class="fas fa-calendar-alt fa-3x opacity-25"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="admin-card card text-white" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2 class="mb-1">@stats.PendingBookings</h2>
+                            <p class="mb-0 opacity-75">Chờ xác nhận</p>
+                            <small class="opacity-50">Cần xử lý ngay</small>
+                        </div>
+                        <div class="text-end">
+                            <i class="fas fa-clock fa-3x opacity-25"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="admin-card card text-white" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2 class="mb-1">@stats.CompletedBookings</h2>
+                            <p class="mb-0 opacity-75">Đã hoàn thành</p>
+                            <small class="opacity-50">Tỷ lệ thành công: 95%</small>
+                        </div>
+                        <div class="text-end">
+                            <i class="fas fa-check-circle fa-3x opacity-25"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="admin-card card text-white" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2 class="mb-1">@stats.TotalServices</h2>
+                            <p class="mb-0 opacity-75">Dịch vụ đang có</p>
+                            <small class="opacity-50">@stats.TotalUsers người dùng</small>
+                        </div>
+                        <div class="text-end">
+                            <i class="fas fa-tools fa-3x opacity-25"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Bookings -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Đơn hàng gần đây</h5>
+                </div>
+                <div class="card-body">
+                    @if (!Model.Any())
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Chưa có đơn hàng nào</p>
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+                                <i class="fas fa-home me-1"></i>Về trang chủ
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Khách hàng</th>
+                                        <th>Dịch vụ</th>
+                                        <th>Ngày đặt</th>
+                                        <th>Trạng thái</th>
+                                        <th>Ngày tạo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var booking in Model)
+                                    {
+                                        <tr>
+                                            <td>@booking.CustomerName</td>
+                                            <td>@booking.Service.Name</td>
+                                            <td>@booking.BookingDate.ToString("dd/MM/yyyy") @booking.BookingTime</td>
+                                            <td>
+                                                <span class="badge @GetStatusClass(booking.Status)">
+                                                    @GetStatusText(booking.Status)
+                                                </span>
+                                            </td>
+                                            <td>@booking.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    private string GetStatusClass(BookingStatus status)
+    {
+        return status switch
+        {
+            BookingStatus.Pending => "bg-warning",
+            BookingStatus.Confirmed => "bg-info",
+            BookingStatus.InProgress => "bg-primary",
+            BookingStatus.Completed => "bg-success",
+            BookingStatus.Cancelled => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+    
+    private string GetStatusText(BookingStatus status)
+    {
+        return status switch
+        {
+            BookingStatus.Pending => "Chờ xác nhận",
+            BookingStatus.Confirmed => "Đã xác nhận",
+            BookingStatus.InProgress => "Đang thực hiện",
+            BookingStatus.Completed => "Hoàn thành",
+            BookingStatus.Cancelled => "Đã hủy",
+            _ => status.ToString()
+        };
+    }
+}

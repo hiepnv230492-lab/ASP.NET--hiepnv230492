@@ -1,0 +1,178 @@
+@model IEnumerable<SuaNhaMVC.Models.Service>
+
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<!-- Hero Section -->
+<section class="bg-primary text-white py-5" style="background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    Dịch Vụ Sửa Chữa Nhà Cửa
+                    <span class="text-warning d-block">Chuyên Nghiệp #1</span>
+                </h1>
+                <p class="lead mb-4">
+                    Giải pháp toàn diện cho mọi nhu cầu sửa chữa và cải tạo nhà cửa của bạn
+                </p>
+                <div class="d-flex flex-column flex-sm-row gap-3">
+                    <a asp-controller="Services" asp-action="Index" class="btn btn-warning btn-lg px-4">
+                        <i class="fas fa-tools me-2"></i>Xem Dịch Vụ
+                    </a>
+                    <a asp-controller="Booking" asp-action="Index" class="btn btn-outline-light btn-lg px-4">
+                        <i class="fas fa-calendar-alt me-2"></i>Đặt Lịch Ngay
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg" 
+                     alt="Sửa chữa nhà cửa" class="img-fluid rounded shadow-lg">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-3">Tại Sao Chọn Chúng Tôi?</h2>
+            <p class="lead text-muted">Chúng tôi cam kết mang đến dịch vụ tốt nhất với chất lượng đảm bảo</p>
+        </div>
+        <div class="row g-4">
+            @{
+                var features = new[]
+                {
+                    new { Icon = "fas fa-user-tie", Title = "Thợ có kinh nghiệm lâu năm", Description = "Đội ngũ thợ giàu kinh nghiệm" },
+                    new { Icon = "fas fa-money-bill-wave", Title = "Báo giá minh bạch", Description = "Không phát sinh chi phí" },
+                    new { Icon = "fas fa-shield-alt", Title = "Bảo hành 12 tháng", Description = "Cam kết chất lượng dài hạn" },
+                    new { Icon = "fas fa-headset", Title = "Hỗ trợ 24/7", Description = "Luôn sẵn sàng phục vụ" },
+                    new { Icon = "fas fa-star", Title = "Đội ngũ chuyên nghiệp", Description = "Uy tín và chất lượng" },
+                    new { Icon = "fas fa-gem", Title = "Vật liệu chất lượng cao", Description = "Chỉ sử dụng vật liệu tốt nhất" }
+                };
+            }
+            @foreach (var feature in features)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="d-flex align-items-start p-3 bg-white rounded shadow-sm h-100">
+                        <div class="text-primary me-3 mt-1">
+                            <i class="@feature.Icon fa-2x"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-2">@feature.Title</h5>
+                            <p class="text-muted mb-0">@feature.Description</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Services Preview -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-3">Dịch Vụ Nổi Bật</h2>
+            <p class="lead text-muted">Từ sửa chữa đơn giản đến cải tạo toàn diện</p>
+        </div>
+        <div class="row g-4">
+            @foreach (var service in Model)
+            {
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 shadow-sm border-0">
+                        <img src="@service.ImageUrl" class="card-img-top" alt="@service.Name" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold">@service.Name</h5>
+                            <p class="card-text text-muted flex-grow-1">@service.Description</p>
+                            <div class="d-flex justify-content-between align-items-center mt-auto">
+                                <div>
+                                    <small class="text-muted">Từ</small>
+                                    <div class="fw-bold text-warning fs-5">@service.Price.ToString("N0")đ</div>
+                                </div>
+                                <a asp-controller="Services" asp-action="Details" asp-route-id="@service.Id" 
+                                   class="btn btn-primary btn-sm">
+                                    <i class="fas fa-eye me-1"></i>Xem chi tiết
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="text-center mt-5">
+            <a asp-controller="Services" asp-action="Index" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-list me-2"></i>Xem Tất Cả Dịch Vụ
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-3">Khách Hàng Nói Gì Về Chúng Tôi</h2>
+            <p class="lead text-muted">Hàng nghìn khách hàng đã tin tưởng và hài lòng</p>
+        </div>
+        <div class="row g-4">
+            @{
+                var testimonials = new[]
+                {
+                    new { Name = "Nguyễn Văn An", Comment = "Dịch vụ sửa chữa điện nước rất chuyên nghiệp. Thợ đến đúng giờ và làm việc sạch sẽ.", Service = "Sửa chữa điện nước" },
+                    new { Name = "Trần Thị Bình", Comment = "Sơn nhà đẹp quá, màu sắc đúng như yêu cầu. Giá cả hợp lý, sẽ giới thiệu cho bạn bè.", Service = "Sơn nhà, tường" },
+                    new { Name = "Lê Minh Cường", Comment = "Lát gạch rất tỉ mỉ, đường nét thẳng tắp. Đội ngũ thợ có kinh nghiệm.", Service = "Lát gạch, đá" }
+                };
+            }
+            @foreach (var testimonial in testimonials)
+            {
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    <i class="fas fa-star text-warning"></i>
+                                }
+                            </div>
+                            <p class="card-text fst-italic">"@testimonial.Comment"</p>
+                            <div class="mt-auto">
+                                <h6 class="fw-bold mb-1">@testimonial.Name</h6>
+                                <small class="text-muted">@testimonial.Service</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Contact CTA -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="fw-bold mb-4">Bạn Cần Hỗ Trợ Tư Vấn?</h2>
+            <p class="lead mb-4">Liên hệ ngay với chúng tôi để nhận báo giá miễn phí</p>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-phone fa-2x me-3"></i>
+                            <span class="fs-5 fw-bold">1900-1234</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-envelope fa-2x me-3"></i>
+                            <span class="fs-5 fw-bold">info@suanha.vn</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-map-marker-alt fa-2x me-3"></i>
+                            <span class="fs-5 fw-bold">123 Nguyễn Văn A, Q.1, TP.HCM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

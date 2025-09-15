@@ -1,0 +1,106 @@
+@model IEnumerable<SuaNhaMVC.Models.Booking>
+
+@{
+    ViewData["Title"] = "Quản lý đơn hàng";
+}
+
+<div class="container-fluid py-4">
+    <h1 class="mb-4">Quản Lý Đơn Hàng</h1>
+
+    <div class="card">
+        <div class="card-body">
+            @if (!Model.Any())
+            {
+                <p class="text-muted text-center py-4">Chưa có đơn hàng nào</p>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Khách hàng</th>
+                                <th>Dịch vụ</th>
+                                <th>Ngày/Giờ</th>
+                                <th>Địa chỉ</th>
+                                <th>Trạng thái</th>
+                                <th>Ngày tạo</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var booking in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <strong>@booking.CustomerName</strong>
+                                        <br><small class="text-muted">@booking.CustomerPhone</small>
+                                    </td>
+                                    <td>
+                                        <strong>@booking.Service.Name</strong>
+                                        <br><small class="text-success">@booking.Service.Price.ToString("N0")đ</small>
+                                    </td>
+                                    <td>
+                                        @booking.BookingDate.ToString("dd/MM/yyyy")
+                                        <br><small>@booking.BookingTime</small>
+                                    </td>
+                                    <td>
+                                        <small>@booking.CustomerAddress</small>
+                                    </td>
+                                    <td>
+                                        <form method="post" asp-action="UpdateBookingStatus" class="d-inline">
+                                            <input type="hidden" name="id" value="@booking.Id" />
+                                            <select name="status" class="form-select form-select-sm @GetStatusClass(booking.Status)" 
+                                                    onchange="this.form.submit()">
+                                                <option value="@BookingStatus.Pending" selected="@(booking.Status == BookingStatus.Pending)">Chờ xác nhận</option>
+                                                <option value="@BookingStatus.Confirmed" selected="@(booking.Status == BookingStatus.Confirmed)">Đã xác nhận</option>
+                                                <option value="@BookingStatus.InProgress" selected="@(booking.Status == BookingStatus.InProgress)">Đang thực hiện</option>
+                                                <option value="@BookingStatus.Completed" selected="@(booking.Status == BookingStatus.Completed)">Hoàn thành</option>
+                                                <option value="@BookingStatus.Cancelled" selected="@(booking.Status == BookingStatus.Cancelled)">Đã hủy</option>
+                                            </select>
+                                        </form>
+                                    </td>
+                                    <td>@booking.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(booking.Notes))
+                                        {
+                                            <button class="btn btn-sm btn-info" data-bs-toggle="tooltip" 
+                                                    title="@booking.Notes">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@functions {
+    private string GetStatusClass(BookingStatus status)
+    {
+        return status switch
+        {
+            BookingStatus.Pending => "bg-warning",
+            BookingStatus.Confirmed => "bg-info",
+            BookingStatus.InProgress => "bg-primary",
+            BookingStatus.Completed => "bg-success",
+            BookingStatus.Cancelled => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+}
+
+@section Scripts {
+    <script>
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+}

@@ -1,0 +1,51 @@
+@using Microsoft.AspNetCore.Identity
+@using SuaNhaMVC.Models
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user me-1"></i>@User.Identity?.Name
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" asp-controller="Booking" asp-action="MyBookings">
+                <i class="fas fa-calendar me-2"></i>Lịch đặt của tôi
+            </a></li>
+            @{
+                var currentUser = UserManager.GetUserAsync(User).Result;
+            }
+            @if (currentUser?.IsAdmin == true)
+            {
+                <li><a class="dropdown-item" asp-controller="Admin" asp-action="Index">
+                    <i class="fas fa-cog me-2"></i>Quản trị
+                </a></li>
+            }
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <form method="post" asp-controller="Account" asp-action="Logout">
+                    <button type="submit" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">
+            <i class="fas fa-user-plus me-1"></i>Đăng ký
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">
+            <i class="fas fa-sign-in-alt me-1"></i>Đăng nhập
+        </a>
+    </li>
+}
+</ul>

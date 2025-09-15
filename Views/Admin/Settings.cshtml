@@ -1,0 +1,291 @@
+@{
+    ViewData["Title"] = "Cài Đặt Hệ Thống";
+    var settings = ViewBag.Settings;
+}
+
+<style>
+.settings-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+.settings-section {
+    border-left: 4px solid var(--bs-primary);
+    padding-left: 1rem;
+    margin-bottom: 2rem;
+}
+.form-floating label {
+    color: #6c757d;
+}
+.btn-save {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+}
+</style>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1><i class="fas fa-cog me-2"></i>Cài Đặt Hệ Thống</h1>
+                    <p class="text-muted mb-0">Quản lý thông tin và cấu hình website</p>
+                </div>
+                <div>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>Quay Lại
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Website Information -->
+        <div class="col-lg-8">
+            <div class="card settings-card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-globe me-2"></i>Thông Tin Website</h5>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="siteName" value="@settings.SiteName">
+                                    <label for="siteName">Tên Website</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="siteVersion" value="v1.0.0">
+                                    <label for="siteVersion">Phiên Bản</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="siteDescription" style="height: 100px">@settings.SiteDescription</textarea>
+                            <label for="siteDescription">Mô Tả Website</label>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="siteKeywords" value="sửa nhà, sửa chữa, xây dựng">
+                                    <label for="siteKeywords">Từ Khóa SEO</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="url" class="form-control" id="siteLogo" value="/images/logo.png">
+                                    <label for="siteLogo">URL Logo</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="card settings-card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-address-book me-2"></i>Thông Tin Liên Hệ</h5>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="tel" class="form-control" id="contactPhone" value="@settings.ContactPhone">
+                                    <label for="contactPhone">Số Điện Thoại</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="contactEmail" value="@settings.ContactEmail">
+                                    <label for="contactEmail">Email</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="address" style="height: 80px">@settings.Address</textarea>
+                            <label for="address">Địa Chỉ</label>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="workingHours" value="@settings.WorkingHours">
+                            <label for="workingHours">Giờ Làm Việc</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Social Media -->
+            <div class="card settings-card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-share-alt me-2"></i>Mạng Xã Hội</h5>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="url" class="form-control" id="facebookUrl" value="@settings.FacebookUrl">
+                                    <label for="facebookUrl">Facebook URL</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="url" class="form-control" id="zaloUrl" value="@settings.ZaloUrl">
+                                    <label for="zaloUrl">Zalo URL</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="url" class="form-control" id="youtubeUrl" value="">
+                                    <label for="youtubeUrl">YouTube URL</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="url" class="form-control" id="instagramUrl" value="">
+                                    <label for="instagramUrl">Instagram URL</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Status & Actions -->
+        <div class="col-lg-4">
+            <!-- System Status -->
+            <div class="card settings-card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-server me-2"></i>Trạng Thái Hệ Thống</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>Trạng thái:</span>
+                        <span class="badge bg-success">Online</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>Uptime:</span>
+                        <span class="text-success">99.9%</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>Phiên bản:</span>
+                        <span>v1.0.0</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>Cập nhật cuối:</span>
+                        <span>@DateTime.Now.ToString("dd/MM/yyyy")</span>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-sync me-1"></i>Làm Mới Cache
+                        </button>
+                        <button class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-download me-1"></i>Sao Lưu Dữ Liệu
+                        </button>
+                        <button class="btn btn-outline-warning btn-sm">
+                            <i class="fas fa-chart-line me-1"></i>Xem Thống Kê
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Settings -->
+            <div class="card settings-card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-sliders-h me-2"></i>Cài Đặt Nhanh</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="maintenanceMode">
+                        <label class="form-check-label" for="maintenanceMode">
+                            Chế độ bảo trì
+                        </label>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="allowRegistration" checked>
+                        <label class="form-check-label" for="allowRegistration">
+                            Cho phép đăng ký
+                        </label>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                        <label class="form-check-label" for="emailNotifications">
+                            Thông báo email
+                        </label>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="smsNotifications">
+                        <label class="form-check-label" for="smsNotifications">
+                            Thông báo SMS
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save Actions -->
+            <div class="card settings-card">
+                <div class="card-body text-center">
+                    <button class="btn btn-save text-white w-100 mb-2">
+                        <i class="fas fa-save me-2"></i>Lưu Tất Cả Cài Đặt
+                    </button>
+                    <button class="btn btn-outline-danger w-100">
+                        <i class="fas fa-undo me-2"></i>Khôi Phục Mặc Định
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Save settings
+    document.querySelector('.btn-save').addEventListener('click', function() {
+        // Collect all form data
+        const settings = {
+            siteName: document.getElementById('siteName').value,
+            siteDescription: document.getElementById('siteDescription').value,
+            contactPhone: document.getElementById('contactPhone').value,
+            contactEmail: document.getElementById('contactEmail').value,
+            address: document.getElementById('address').value,
+            workingHours: document.getElementById('workingHours').value,
+            facebookUrl: document.getElementById('facebookUrl').value,
+            zaloUrl: document.getElementById('zaloUrl').value
+        };
+        
+        // Show success message
+        alert('Cài đặt đã được lưu thành công!');
+        console.log('Settings saved:', settings);
+    });
+    
+    // Toggle switches
+    document.querySelectorAll('.form-check-input').forEach(toggle => {
+        toggle.addEventListener('change', function() {
+            console.log(`${this.id}: ${this.checked}`);
+        });
+    });
+});
+</script>

@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Đăng Ký</h2>
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Họ và tên</label>
+                            <input name="fullName" type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input name="email" type="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Số điện thoại</label>
+                            <input name="phone" type="tel" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Mật khẩu</label>
+                            <input name="password" type="password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Đăng Ký</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a asp-action="Login">Đã có tài khoản? Đăng nhập</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

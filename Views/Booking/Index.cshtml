@@ -1,0 +1,123 @@
+@model SuaNhaMVC.Models.Booking
+
+@{
+    ViewData["Title"] = "Đặt lịch sửa chữa";
+}
+
+<!-- Header -->
+<section class="bg-white shadow-sm">
+    <div class="container py-5">
+        <div class="text-center">
+            <h1 class="display-5 fw-bold text-dark mb-4">Đặt Lịch Sửa Chữa</h1>
+            <p class="lead text-muted">Chọn dịch vụ và thời gian phù hợp với bạn</p>
+        </div>
+    </div>
+</section>
+
+<!-- Booking Form -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow border-0">
+                    <div class="card-body p-5">
+                        <form asp-action="Create" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+                            <!-- Service Selection -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-tools me-2"></i>Chọn Dịch Vụ *
+                                </label>
+                                <select asp-for="ServiceId" class="form-select" asp-items="ViewBag.Services" required>
+                                    <option value="">-- Chọn dịch vụ --</option>
+                                </select>
+                                <span asp-validation-for="ServiceId" class="text-danger"></span>
+                            </div>
+
+                            <div class="row">
+                                <!-- Date -->
+                                <div class="col-md-6 mb-4">
+                                    <label asp-for="BookingDate" class="form-label fw-bold">
+                                        <i class="fas fa-calendar me-2"></i>Ngày *
+                                    </label>
+                                    <input asp-for="BookingDate" type="date" class="form-control" 
+                                           min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" required />
+                                    <span asp-validation-for="BookingDate" class="text-danger"></span>
+                                </div>
+
+                                <!-- Time -->
+                                <div class="col-md-6 mb-4">
+                                    <label asp-for="BookingTime" class="form-label fw-bold">
+                                        <i class="fas fa-clock me-2"></i>Giờ *
+                                    </label>
+                                    <select asp-for="BookingTime" class="form-select" asp-items="ViewBag.TimeSlots" required>
+                                        <option value="">-- Chọn giờ --</option>
+                                    </select>
+                                    <span asp-validation-for="BookingTime" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <!-- Customer Name -->
+                                <div class="col-md-6 mb-4">
+                                    <label asp-for="CustomerName" class="form-label fw-bold">
+                                        <i class="fas fa-user me-2"></i>Họ Tên *
+                                    </label>
+                                    <input asp-for="CustomerName" type="text" class="form-control" 
+                                           placeholder="Nhập họ tên" required />
+                                    <span asp-validation-for="CustomerName" class="text-danger"></span>
+                                </div>
+
+                                <!-- Phone -->
+                                <div class="col-md-6 mb-4">
+                                    <label asp-for="CustomerPhone" class="form-label fw-bold">
+                                        <i class="fas fa-phone me-2"></i>Số Điện Thoại *
+                                    </label>
+                                    <input asp-for="CustomerPhone" type="tel" class="form-control" 
+                                           placeholder="Nhập số điện thoại" required />
+                                    <span asp-validation-for="CustomerPhone" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Address -->
+                            <div class="mb-4">
+                                <label asp-for="CustomerAddress" class="form-label fw-bold">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Địa Chỉ *
+                                </label>
+                                <textarea asp-for="CustomerAddress" rows="3" class="form-control" 
+                                          placeholder="Nhập địa chỉ chi tiết" required></textarea>
+                                <span asp-validation-for="CustomerAddress" class="text-danger"></span>
+                            </div>
+
+                            <!-- Notes -->
+                            <div class="mb-5">
+                                <label asp-for="Notes" class="form-label fw-bold">
+                                    <i class="fas fa-sticky-note me-2"></i>Ghi Chú
+                                </label>
+                                <textarea asp-for="Notes" rows="3" class="form-control" 
+                                          placeholder="Mô tả chi tiết về công việc cần làm (tùy chọn)"></textarea>
+                                <span asp-validation-for="Notes" class="text-danger"></span>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="d-flex flex-column flex-sm-row gap-3">
+                                <button type="submit" class="btn btn-primary btn-lg flex-fill">
+                                    <i class="fas fa-calendar-check me-2"></i>Đặt Lịch Ngay
+                                </button>
+                                <a asp-controller="Services" asp-action="Index" 
+                                   class="btn btn-outline-secondary btn-lg">
+                                    <i class="fas fa-arrow-left me-2"></i>Quay lại
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
